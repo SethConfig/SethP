@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+source etc/banner
+# Banner Add
+echo -e "Yürütülüyor: ${LIGHTGREEN}SethPAK${NOCOLOR}"
+echo "-----------------------"
+
+if [[ -d "output" ]]
+  then
+    echo ""
+  else
+    echo ""
+    mkdir output
+fi
+
+unpacking () {
+  qemu-i386 $PREFIX/share/quickbms/quickbms -Q etc/tools.bms $opt output
+}
+
+repacking () {
+  qemu-i386 $PREFIX/share/quickbms/quickbms -w -r -r etc/tools.bms $opt output
+}
+
+function unpack {
+prompt="Lütfen açmak için bir dosya seçin:"
+options=( $(find *.pak) )
+
+PS3="$prompt "
+select opt in "${options[@]}" "Çıkış" ; do 
+    if (( REPLY == 1 + ${#options[@]} )) ; then
+        exit
+
+    elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+        echo  "Seçtiniz $opt seçenek $REPLY"
+         unpacking
+        break
+
+    else
+        echo "Geçersiz seçenek. Başka bir tane dene."
+    fi
+done
+}
+
+function repack {
+prompt="Lütfen yeniden paketlemek için bir dosya seçin:"
+options=( $(find *.pak) )
+
+PS3="$prompt "
+select opt in "${options[@]}" "Çıkış" ; do 
+    if (( REPLY == 1 + ${#options[@]} )) ; then
+        exit
+
+    elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+        echo  "Seçtiniz $opt seçenek $REPLY"
+         repacking
+        break
+    else
+        echo "Geçersiz seçenek. Başka bir tane dene."
+    fi
+done
+}
+
+PS3='Lütfen seçiminizi girin: '
+options=("Unpack" "Repack" "Çıkış")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Unpack")
+            unpack
+            break
+            ;;
+        "Repack")
+            repack
+            
+            ;;
+        "Çıkış")
+            break
+            ;;
+        *) echo "geçersiz seçenek $REPLY";;
+    esac
+done 
