@@ -37,4 +37,4 @@ bash setup
 4. Ve sonuç aşağıdaki gibi olucaktır
 ![Result](/SS/rpack_pak.jpg)
 
-### Yeni script ve tool'lardan haberdar olmak için youtube kanalına abone ol ! https://youtube.com/@rynacode
+### Yeni script ve tool'lardan haberdar olmak için youtube kanalına abone ol ! https://youtube.com/@sayretna
